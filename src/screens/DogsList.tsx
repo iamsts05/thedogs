@@ -101,7 +101,7 @@ const DogsList = () => {
           </Pressable>
         </View>
       </View>
-      {loading ? (
+      {loading && (
         <View
           style={[
             styles.container,
@@ -109,34 +109,45 @@ const DogsList = () => {
           ]}>
           <ActivityIndicator size="large" color="#000" />
         </View>
-      ) : (
-        <FlatList
-          data={filteredData}
-          keyExtractor={(item: any) => item.id.toString()}
-          renderItem={({item}) => (
-            <Pressable
-              style={styles.item}
-              onPress={() => {
-                setIsModalVisible(true);
-                setInfo(item);
-              }}>
-              {item.reference_image_id && (
-                <Image
-                  source={{
-                    uri: getDogImageUrl(item?.reference_image_id),
-                  }}
-                  style={styles.image}
-                />
+      )}
+      {!loading && (
+        <>
+          {filteredData?.length > 0 ? (
+            <FlatList
+              style={{top: 10}}
+              data={filteredData}
+              keyExtractor={(item: any) => item.id.toString()}
+              renderItem={({item}) => (
+                <Pressable
+                  style={styles.item}
+                  onPress={() => {
+                    setIsModalVisible(true);
+                    setInfo(item);
+                  }}>
+                  {item.reference_image_id && (
+                    <Image
+                      source={{
+                        uri: getDogImageUrl(item?.reference_image_id),
+                      }}
+                      style={styles.image}
+                    />
+                  )}
+                  <View style={{marginLeft: 10}}>
+                    <Text style={styles.title}>{item.name}</Text>
+                    <Text style={styles.subtitle}>
+                      {item.breed_group || 'No breed group'}
+                    </Text>
+                  </View>
+                </Pressable>
               )}
-              <View style={{marginLeft: 10}}>
-                <Text style={styles.title}>{item.name}</Text>
-                <Text style={styles.subtitle}>
-                  {item.breed_group || 'No breed group'}
-                </Text>
-              </View>
-            </Pressable>
+            />
+          ) : (
+            <View
+              style={{justifyContent: 'center', alignItems: 'center', flex: 1}}>
+              <Text style={{color: 'black'}}>No data found</Text>
+            </View>
           )}
-        />
+        </>
       )}
       {isModalVisible && (
         <InfoModal
@@ -157,7 +168,7 @@ const styles = StyleSheet.create({
   },
   searchInput: {
     height: 40,
-    borderColor: '#ccc',
+    borderColor: '#f4f4f4',
     borderWidth: 1,
     borderRadius: 5,
     marginBottom: 10,
@@ -165,10 +176,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#f9f9f9',
   },
   item: {
-    backgroundColor: '#fff',
+    backgroundColor: '#f4f4f4',
     marginVertical: 8,
     padding: 10,
-    borderRadius: 5,
+    borderRadius: 6,
     flexDirection: 'row',
     alignItems: 'center',
   },

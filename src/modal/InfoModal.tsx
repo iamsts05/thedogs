@@ -105,13 +105,16 @@ const styles = StyleSheet.create({
     marginTop: 20,
     width: '100%',
     padding: 10,
-    left: 30,
+    justifyContent:"center",
+    alignItems:"center",
   },
   infoText: {
-    backgroundColor: '#ccc',
+    backgroundColor: '#f4f4f4',
     borderRadius: 6,
     padding: 10,
     margin: 5,
+    color:"#8b8b8b",
+    fontWeight:"600",
   },
   closeButton: {
     backgroundColor: '#007bff',
