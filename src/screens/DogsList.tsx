@@ -13,6 +13,30 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import InfoModal from '../modal/InfoModal';
 import {getDogImageUrl} from '../Utility';
 
+interface DogData {
+  height?: {
+    imperial?: string;
+    metric?: string;
+  };
+}
+
+export interface DogInfo {
+  id?: number | string;
+  reference_image_id?: string;
+  name?: string;
+  life_span?: string;
+  breed_group?: string;
+  bred_for?: string;
+  height?: {
+    imperial?: string;
+    metric?: string;
+  };
+  weight?: {
+    imperial?: string;
+    metric?: string;
+  };
+}
+
 const DogsList = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [searchText, setSearchText] = useState('');
@@ -46,10 +70,10 @@ const DogsList = () => {
     setSearchText(text);
   };
 
-  const handleSort = (order: any) => {
-    const sortedData = [...filteredData].sort((a: any, b: any) => {
-      const heightA = parseInt(a.height?.imperial.split(' - ')[0]) || 0;
-      const heightB = parseInt(b.height?.imperial.split(' - ')[0]) || 0;
+  const handleSort = (order: 'asc' | 'desc') => {
+    const sortedData = [...filteredData].sort((a: DogData, b: DogData) => {
+      const heightA = parseInt(a.height?.imperial?.split(' - ')[0] || '0');
+      const heightB = parseInt(b.height?.imperial?.split(' - ')[0] || '0');
 
       if (order === 'asc') {
         return heightA - heightB;
@@ -116,7 +140,7 @@ const DogsList = () => {
             <FlatList
               style={{top: 10}}
               data={filteredData}
-              keyExtractor={(item: any) => item.id.toString()}
+              keyExtractor={(item: DogInfo) => item?.id?.toString() as string}
               renderItem={({item}) => (
                 <Pressable
                   style={styles.item}

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
   Modal,
   View,
@@ -13,8 +13,21 @@ import {
   calculateAverageWeight,
   getDogImageUrl,
 } from '../Utility';
+import { DogInfo } from '../screens/DogsList';
 
-const InfoModal = ({setIsModalVisible, isModalVisible, info}: any) => {
+
+
+interface InfoModalProps {
+  setIsModalVisible: (visible: boolean) => void;
+  isModalVisible: boolean;
+  info: DogInfo;
+}
+
+const InfoModal: React.FC<InfoModalProps> = ({
+  setIsModalVisible,
+  isModalVisible,
+  info,
+}) => {
   const toggleModal = () => {
     setIsModalVisible(!isModalVisible);
   };
@@ -33,28 +46,28 @@ const InfoModal = ({setIsModalVisible, isModalVisible, info}: any) => {
               {info.reference_image_id && (
                 <Image
                   source={{
-                    uri: getDogImageUrl(info?.reference_image_id),
+                    uri: getDogImageUrl(info.reference_image_id),
                   }}
                   style={styles.image}
                 />
               )}
-              <Text style={styles.nameText}>{info?.name}</Text>
+              <Text style={styles.nameText}>{info.name}</Text>
             </View>
             <View style={styles.infoContainer}>
               <Text
-                style={styles.infoText}>{`LifeSpan: ${info?.life_span}`}</Text>
+                style={styles.infoText}>{`LifeSpan: ${info.life_span}`}</Text>
               <Text
-                style={styles.infoText}>{`Breed: ${info?.breed_group}`}</Text>
+                style={styles.infoText}>{`Breed: ${info.breed_group}`}</Text>
               <Text
-                style={styles.infoText}>{`BreedFor: ${info?.bred_for}`}</Text>
+                style={styles.infoText}>{`BreedFor: ${info.bred_for}`}</Text>
               <Text style={styles.infoText}>
                 {`Height: ${
-                  calculateAverageHeight(info?.height)?.averageImperialHeightFt
+                  calculateAverageHeight(info.height)?.averageImperialHeightFt
                 } ft`}
               </Text>
               <Text style={styles.infoText}>
                 {`Weight: ${
-                  calculateAverageWeight(info?.weight)?.averageImperialWeightKg
+                  calculateAverageWeight(info.weight)?.averageImperialWeightKg
                 } kg`}
               </Text>
             </View>
@@ -105,16 +118,16 @@ const styles = StyleSheet.create({
     marginTop: 20,
     width: '100%',
     padding: 10,
-    justifyContent:"center",
-    alignItems:"center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   infoText: {
     backgroundColor: '#f4f4f4',
     borderRadius: 6,
     padding: 10,
     margin: 5,
-    color:"#8b8b8b",
-    fontWeight:"600",
+    color: '#8b8b8b',
+    fontWeight: '600',
   },
   closeButton: {
     backgroundColor: '#007bff',
